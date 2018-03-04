@@ -20,26 +20,87 @@ public class RateCalculator {
 		float weight = Float.parseFloat(args[5]);
 		String type = args[6];
 		
-		Parcel parcel = new Parcel(sourcePostalCode, destPostalCode, 
-				length,width,height,weight);
-		
-		if(type.equalsIgnoreCase("xpress")) {
-			parcel.setType(Parcel.Type.XPRESS);
-		}
-		if(type.equalsIgnoreCase("regular")) {
-			parcel.setType(Parcel.Type.REGULAR);
-		}
-		if(type.equalsIgnoreCase("priority")) {
-			parcel.setType(Parcel.Type.PRIORITY);
-		}
-		
-		String errorMessage = parcelDimensionChecking(parcel);
-		if(errorMessage.length() > 0) {
-			System.out.println("ERROR: "+errorMessage);
-		} else {
-			parcel.setTranslatedPostalCode(codeTranslationTableLookup(parcel.getSourcePostalCode()));
-			rateTableLookup(parcel);
-		}
+//		Parcel parcel = new Parcel(sourcePostalCode, destPostalCode,
+//				length,width,height,weight);
+
+        Parcel parcel = new Parcel (null, null, -1f, -1f, -1f, -1f);
+        parcel = setCheckSourcePostalCode(parcel, sourcePostalCode);
+        parcel = setCheckDestPostalCode(parcel, destPostalCode);
+        parcel = setCheckLegnth(parcel, length);
+        parcel = setCheckWidth(parcel, width);
+        parcel = setCheckHeight(parcel, height);
+        parcel = setCheckWeight(parcel, weight);
+		parcel = setCheckType(parcel, type);
+
+        parcel.setTranslatedPostalCode(codeTranslationTableLookup(parcel.getSourcePostalCode()));
+        rateTableLookup(parcel);
+	}
+
+    public static Parcel setCheckSourcePostalCode(Parcel parcel, String sourcePostalCode){
+        parcel.setSourcePostalCode(sourcePostalCode);
+        return parcel;
+    }
+
+    public static Parcel setCheckDestPostalCode(Parcel parcel, String destPostalCode){
+        parcel.setDestPostalCode(destPostalCode);
+        return parcel;
+    }
+
+    public static Parcel setCheckLegnth(Parcel parcel, float length){
+        if(length<10){
+            throw new IllegalArgumentException("ERROR: length must be at least 10cm");
+        } else if (length > 20){
+            throw new IllegalArgumentException("ERROR: length must be at most 20cm");
+        } else {
+            parcel.setLength(length);
+        }
+        return parcel;
+    }
+
+    public static Parcel setCheckWidth(Parcel parcel, float width){
+        if(width<7){
+            throw new IllegalArgumentException("ERROR: width must be at least 7cm");
+        } else if (width > 20){
+            throw new IllegalArgumentException("ERROR: width must be at most 20cm");
+        } else {
+            parcel.setWidth(width);
+        }
+        return parcel;
+    }
+
+    public static Parcel setCheckHeight(Parcel parcel, float height){
+        if(height<0.1){
+            throw new IllegalArgumentException("ERROR: height must be at least 0.1cm");
+        } else if (height > 20){
+            throw new IllegalArgumentException("ERROR: height must be at most 20cm");
+        } else {
+            parcel.setHeight(height);
+        }
+        return parcel;
+    }
+
+    public static Parcel setCheckWeight(Parcel parcel, float weight){
+        if(weight<0){
+            throw new IllegalArgumentException("ERROR: cannot have a weight less than 0kg");
+        } else {
+            parcel.setWeight(weight);
+        }
+        return parcel;
+    }
+
+	public static Parcel setCheckType(Parcel parcel, String type) {
+
+        if(type.equalsIgnoreCase("xpress")) {
+            parcel.setType(Parcel.Type.XPRESS);
+        }
+        if(type.equalsIgnoreCase("regular")) {
+            parcel.setType(Parcel.Type.REGULAR);
+        }
+        if(type.equalsIgnoreCase("priority")) {
+            parcel.setType(Parcel.Type.PRIORITY);
+        }
+
+		return parcel;
 	}
 
 
@@ -52,7 +113,7 @@ public class RateCalculator {
 		Reader in;
 		String translatedPostalCode = "";
 		try {
-			in = new BufferedReader(new FileReader("Postal-Tables/Montreal Postal Codes to Rate Codes.csv"));
+			in = new BufferedReader(new FileReader("PostalRateCalculator/Postal-Tables/Montreal Postal Codes to Rate Codes.csv"));
 			Iterable<CSVRecord> records;
 			try {
 				records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
@@ -85,7 +146,7 @@ public class RateCalculator {
 			tableName = "Priority.csv";	
 		}
 		try {
-			in = new BufferedReader(new FileReader("Postal-Tables/" + tableName));
+			in = new BufferedReader(new FileReader("PostalRateCalculator/Postal-Tables/" + tableName));
 			Iterable<CSVRecord> records;
 			try {
 				records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
@@ -114,22 +175,5 @@ public class RateCalculator {
 		}
 		return 0;
 	}
-	
-	public static String parcelDimensionChecking(Parcel parcel){
-		String error = "";
-		if(parcel.getLength() < 10.0 || parcel.getLength() > 20.0) {
-			System.out.println("HERE");
-			error += "Invalid length. ";
-		}
-		if(parcel.getWidth() < 7 || parcel.getWidth() > 20) {
-			error += "Invalid width. ";
-		}
-		if(parcel.getHeight() < 0.1 || parcel.getHeight() > 20) {
-			error += "Invalid height. ";
-		}
-		if(parcel.getWeight() < 0) {
-			error += "Invalid weight. ";
-		}
-		return error;
-	}
+
 }
