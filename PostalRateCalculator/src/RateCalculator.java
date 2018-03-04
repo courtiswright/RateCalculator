@@ -26,10 +26,34 @@ public class RateCalculator {
         Parcel parcel = new Parcel (null, null, -1f, -1f, -1f, -1f);
         parcel = setCheckSourcePostalCode(parcel, sourcePostalCode);
         parcel = setCheckDestPostalCode(parcel, destPostalCode);
-        parcel = setCheckLegnth(parcel, length);
-        parcel = setCheckWidth(parcel, width);
-        parcel = setCheckHeight(parcel, height);
-        parcel = setCheckWeight(parcel, weight);
+        try {
+            parcel = setCheckLegnth(parcel, length);
+        }
+        catch (IllegalArgumentException ex){
+            System.out.println(ex);
+        }
+
+        try {
+            parcel = setCheckWidth(parcel, width);
+        }
+        catch (IllegalArgumentException ex) {
+            System.out.println(ex);
+        }
+
+        try {
+            parcel = setCheckHeight(parcel, height);
+        }
+        catch (IllegalArgumentException ex){
+            System.out.println(ex);
+        }
+
+        try {
+            parcel = setCheckWeight(parcel, weight);
+        }
+        catch (IllegalArgumentException ex){
+            System.out.println(ex);
+        }
+
 		parcel = setCheckType(parcel, type);
 
         parcel.setTranslatedPostalCode(codeTranslationTableLookup(parcel.getSourcePostalCode()));
@@ -46,7 +70,7 @@ public class RateCalculator {
         return parcel;
     }
 
-    public static Parcel setCheckLegnth(Parcel parcel, float length){
+    public static Parcel setCheckLegnth(Parcel parcel, float length) throws IllegalArgumentException{
         if(length<10){
             throw new IllegalArgumentException("ERROR: length must be at least 10cm");
         } else if (length > 20){
@@ -57,7 +81,7 @@ public class RateCalculator {
         return parcel;
     }
 
-    public static Parcel setCheckWidth(Parcel parcel, float width){
+    public static Parcel setCheckWidth(Parcel parcel, float width) throws IllegalArgumentException{
         if(width<7){
             throw new IllegalArgumentException("ERROR: width must be at least 7cm");
         } else if (width > 20){
@@ -68,7 +92,7 @@ public class RateCalculator {
         return parcel;
     }
 
-    public static Parcel setCheckHeight(Parcel parcel, float height){
+    public static Parcel setCheckHeight(Parcel parcel, float height) throws IllegalArgumentException{
         if(height<0.1){
             throw new IllegalArgumentException("ERROR: height must be at least 0.1cm");
         } else if (height > 20){
@@ -79,8 +103,8 @@ public class RateCalculator {
         return parcel;
     }
 
-    public static Parcel setCheckWeight(Parcel parcel, float weight){
-        if(weight<0){
+    public static Parcel setCheckWeight(Parcel parcel, float weight)throws IllegalArgumentException{
+        if(weight<=0){
             throw new IllegalArgumentException("ERROR: cannot have a weight less than 0kg");
         } else {
             parcel.setWeight(weight);
@@ -88,7 +112,7 @@ public class RateCalculator {
         return parcel;
     }
 
-	public static Parcel setCheckType(Parcel parcel, String type) {
+	public static Parcel setCheckType(Parcel parcel, String type){
 
         if(type.equalsIgnoreCase("xpress")) {
             parcel.setType(Parcel.Type.XPRESS);
