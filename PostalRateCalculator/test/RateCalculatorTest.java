@@ -48,7 +48,8 @@ public class RateCalculatorTest {
         }
         assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
         assertTrue(exception);
-        
+
+        exception = false;
         newPostalCode = "054031";
         try {
             testParcel = RateCalculator.setCheckDestPostalCode(testParcel, newPostalCode);
@@ -58,7 +59,8 @@ public class RateCalculatorTest {
         }
         assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
         assertTrue(exception);
-        
+
+        exception = false;
         newPostalCode = "HAZAY7";
         try {
             testParcel = RateCalculator.setCheckDestPostalCode(testParcel, newPostalCode);
@@ -69,6 +71,7 @@ public class RateCalculatorTest {
         assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
         assertTrue(exception);
 
+        exception = false;
         newPostalCode = "H3Z2Y";
         try {
             testParcel = RateCalculator.setCheckDestPostalCode(testParcel, newPostalCode);
@@ -79,6 +82,7 @@ public class RateCalculatorTest {
         assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
         assertTrue(exception);
 
+        exception = false;
         newPostalCode = "H3Z2Y7A";
         try {
             testParcel = RateCalculator.setCheckDestPostalCode(testParcel, newPostalCode);
@@ -120,7 +124,8 @@ public class RateCalculatorTest {
         }
         assertNotEquals(testParcel.getSourcePostalCode(), newPostalCode);
         assertTrue(exception);
-        
+
+        exception = false;
         newPostalCode = "054031";
         try {
             testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, newPostalCode);
@@ -130,7 +135,8 @@ public class RateCalculatorTest {
         }
         assertNotEquals(testParcel.getSourcePostalCode(), newPostalCode);
         assertTrue(exception);
-        
+
+        exception = false;
         newPostalCode = "HAZAY7";
         try {
             testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, newPostalCode);
@@ -141,6 +147,7 @@ public class RateCalculatorTest {
         assertNotEquals(testParcel.getSourcePostalCode(), newPostalCode);
         assertTrue(exception);
 
+        exception = false;
         newPostalCode = "H3Z2Y";
         try {
             testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, newPostalCode);
@@ -151,6 +158,7 @@ public class RateCalculatorTest {
         assertNotEquals(testParcel.getSourcePostalCode(), newPostalCode);
         assertTrue(exception);
 
+        exception = false;
         newPostalCode = "H3Z2Y7A";
         try {
             testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, newPostalCode);
