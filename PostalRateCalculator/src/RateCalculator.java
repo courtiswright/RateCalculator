@@ -60,14 +60,40 @@ public class RateCalculator {
         rateTableLookup(parcel);
 	}
 
-    public static Parcel setCheckSourcePostalCode(Parcel parcel, String sourcePostalCode){
-        parcel.setSourcePostalCode(sourcePostalCode);
-        return parcel;
-    }
+	public static Parcel setCheckSourcePostalCode(Parcel parcel, String sourcePostalCode){
+		if(sourcePostalCode.length() != 6) {
+			throw new IllegalArgumentException("ERROR: source postal code is not correct length");
+		}
+		
+		if(!Character.isLetter(sourcePostalCode.charAt(0)) ||
+				!Character.isDigit(sourcePostalCode.charAt(1)) ||
+				!Character.isLetter(sourcePostalCode.charAt(2)) ||
+				!Character.isDigit(sourcePostalCode.charAt(3)) ||
+				!Character.isLetter(sourcePostalCode.charAt(4)) ||
+				!Character.isDigit(sourcePostalCode.charAt(5))) {
+			throw new IllegalArgumentException("ERROR: source postal code is not valid");
+		} else {
+			parcel.setSourcePostalCode(sourcePostalCode);
+		}
+		return parcel;
+	}
 
     public static Parcel setCheckDestPostalCode(Parcel parcel, String destPostalCode){
-        parcel.setDestPostalCode(destPostalCode);
-        return parcel;
+    	if(destPostalCode.length() != 6) {
+			throw new IllegalArgumentException("ERROR: destination postal code is not correct length");
+		}
+		
+		if(!Character.isLetter(destPostalCode.charAt(0)) ||
+				!Character.isDigit(destPostalCode.charAt(1)) ||
+				!Character.isLetter(destPostalCode.charAt(2)) ||
+				!Character.isDigit(destPostalCode.charAt(3)) ||
+				!Character.isLetter(destPostalCode.charAt(4)) ||
+				!Character.isDigit(destPostalCode.charAt(5))) {
+			throw new IllegalArgumentException("ERROR: source postal code is not valid");
+		} else {
+			parcel.setDestPostalCode(destPostalCode);
+		}
+		return parcel;
     }
 
     public static Parcel setCheckLegnth(Parcel parcel, float length) throws IllegalArgumentException{
@@ -137,7 +163,7 @@ public class RateCalculator {
 		Reader in;
 		String translatedPostalCode = "";
 		try {
-			in = new BufferedReader(new FileReader("PostalRateCalculator/Postal-Tables/Montreal Postal Codes to Rate Codes.csv"));
+			in = new BufferedReader(new FileReader("Postal-Tables/Montreal Postal Codes to Rate Codes.csv"));
 			Iterable<CSVRecord> records;
 			try {
 				records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
@@ -170,7 +196,7 @@ public class RateCalculator {
 			tableName = "Priority.csv";	
 		}
 		try {
-			in = new BufferedReader(new FileReader("PostalRateCalculator/Postal-Tables/" + tableName));
+			in = new BufferedReader(new FileReader("Postal-Tables/" + tableName));
 			Iterable<CSVRecord> records;
 			try {
 				records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);

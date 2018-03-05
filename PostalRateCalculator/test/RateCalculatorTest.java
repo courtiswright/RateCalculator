@@ -19,39 +19,7 @@ public class RateCalculatorTest {
 
     @Test
     public void validPostalCodeTo() throws Exception {
-        testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
-        String newPostalCode = "H3Z2Y7";
-        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, newPostalCode);
-        assertEquals(testParcel.getSourcePostalCode(), newPostalCode);
-
-    }
-
-    @Test
-    public void invalidPostalCodeTo() throws Exception {
-//        String newPostalCode = "HAZ2Y7";
-//        testParcel.setSourcePostalCode(newPostalCode);
-//        assertEquals(testParcel.getSourcePostalCode(), newPostalCode);
-//
-//        newPostalCode = "054031";
-//        testParcel.setSourcePostalCode(newPostalCode);
-//        assertEquals(testParcel.getSourcePostalCode(), newPostalCode);
-//
-//        newPostalCode = "HAZAY7";
-//        testParcel.setSourcePostalCode(newPostalCode);
-//        assertEquals(testParcel.getSourcePostalCode(), newPostalCode);
-//
-//        newPostalCode = "H3Z2Y";
-//        testParcel.setSourcePostalCode(newPostalCode);
-//        assertEquals(testParcel.getSourcePostalCode(), newPostalCode);
-//
-//        newPostalCode = "H3Z2Y7A";
-//        testParcel.setSourcePostalCode(newPostalCode);
-//        assertEquals(testParcel.getSourcePostalCode(), newPostalCode);
-    }
-
-    @Test
-    public void validPostalCodeFrom() throws Exception {
-        testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
+    	testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
         boolean exception = false;
 
         String newPostalCode = "H3Z2Y7";
@@ -63,29 +31,135 @@ public class RateCalculatorTest {
         }
         assertEquals(testParcel.getDestPostalCode(), newPostalCode);
         assertFalse(exception);
+
+    }
+
+    @Test
+    public void invalidPostalCodeTo() throws Exception {
+        boolean exception = false;
+        testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
+        
+        String newPostalCode = "HAZ 2Y7";
+        try {
+            testParcel = RateCalculator.setCheckDestPostalCode(testParcel, newPostalCode);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
+        assertTrue(exception);
+        
+        newPostalCode = "054031";
+        try {
+            testParcel = RateCalculator.setCheckDestPostalCode(testParcel, newPostalCode);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
+        assertTrue(exception);
+        
+        newPostalCode = "HAZAY7";
+        try {
+            testParcel = RateCalculator.setCheckDestPostalCode(testParcel, newPostalCode);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
+        assertTrue(exception);
+
+        newPostalCode = "H3Z2Y";
+        try {
+            testParcel = RateCalculator.setCheckDestPostalCode(testParcel, newPostalCode);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
+        assertTrue(exception);
+
+        newPostalCode = "H3Z2Y7A";
+        try {
+            testParcel = RateCalculator.setCheckDestPostalCode(testParcel, newPostalCode);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
+        assertTrue(exception);
+    }
+
+    @Test
+    public void validPostalCodeFrom() throws Exception {
+        testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
+        boolean exception = false;
+
+        String newPostalCode = "H3Z2Y7";
+        try{
+            testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, newPostalCode);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertEquals(testParcel.getSourcePostalCode(), newPostalCode);
+        assertFalse(exception);
     }
 
     @Test
     public void invalidPostalCodeFrom() throws Exception {
-//        String newPostalCode = "HAZ2Y7";
-//        testParcel.setDestPostalCode(newPostalCode);
-//        assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
-//
-//        newPostalCode = "054031";
-//        testParcel.setDestPostalCode(newPostalCode);
-//        assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
-//
-//        newPostalCode = "HAZAY7";
-//        testParcel.setDestPostalCode(newPostalCode);
-//        assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
-//
-//        newPostalCode = "H3Z2Y";
-//        testParcel.setDestPostalCode(newPostalCode);
-//        assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
-//
-//        newPostalCode = "H3Z2Y7A";
-//        testParcel.setDestPostalCode(newPostalCode);
-//        assertNotEquals(testParcel.getDestPostalCode(), newPostalCode);
+    	boolean exception = false;
+        testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
+        
+        String newPostalCode = "HAZ 2Y7";
+        try {
+            testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, newPostalCode);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertNotEquals(testParcel.getSourcePostalCode(), newPostalCode);
+        assertTrue(exception);
+        
+        newPostalCode = "054031";
+        try {
+            testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, newPostalCode);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertNotEquals(testParcel.getSourcePostalCode(), newPostalCode);
+        assertTrue(exception);
+        
+        newPostalCode = "HAZAY7";
+        try {
+            testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, newPostalCode);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertNotEquals(testParcel.getSourcePostalCode(), newPostalCode);
+        assertTrue(exception);
+
+        newPostalCode = "H3Z2Y";
+        try {
+            testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, newPostalCode);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertNotEquals(testParcel.getSourcePostalCode(), newPostalCode);
+        assertTrue(exception);
+
+        newPostalCode = "H3Z2Y7A";
+        try {
+            testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, newPostalCode);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertNotEquals(testParcel.getSourcePostalCode(), newPostalCode);
+        assertTrue(exception);
     }
 
     @Test
