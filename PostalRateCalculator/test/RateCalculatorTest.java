@@ -676,11 +676,30 @@ public class RateCalculatorTest {
 
     @Test
     public void correctPriceAssignment() throws Exception {
-        testParcel = new Parcel("S9V3U5", "H3A1B9", 15.29385f, 9.23593f, 0.193477f, 12.2475f);
+        testParcel = new Parcel("S9V3U5", "H3A1B9", 15.29385f, 9.23593f, 0.193477f, 0.001f);
         RateCalculator.setCheckType(testParcel, "regular");
         testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
 
         float price = RateCalculator.rateTableLookup(testParcel);
+        assertEquals(price, 14.33f, 0f);
+
+        RateCalculator.setCheckType(testParcel, "xpress");
+        testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
+
+        price = RateCalculator.rateTableLookup(testParcel);
+        assertEquals(price, 16f, 0f);
+
+        RateCalculator.setCheckType(testParcel, "priority");
+        testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
+
+        price = RateCalculator.rateTableLookup(testParcel);
+        assertEquals(price, 40.85f, 0f);
+
+        testParcel = new Parcel("S9V3U5", "H3A1B9", 15.29385f, 9.23593f, 0.193477f, 12.2475f);
+        RateCalculator.setCheckType(testParcel, "regular");
+        testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
+
+        price = RateCalculator.rateTableLookup(testParcel);
         assertEquals(price, 32.24f, 0f);
 
         RateCalculator.setCheckType(testParcel, "xpress");
@@ -695,24 +714,24 @@ public class RateCalculatorTest {
         price = RateCalculator.rateTableLookup(testParcel);
         assertEquals(price, 115.53f, 0f);
 
-        testParcel = new Parcel("E4X3U5", "H3A1B9", 15.29385f, 9.23593f, 0.193477f, 24.943f);
+        testParcel = new Parcel("E4X3U5", "H3A1B9", 15.29385f, 9.23593f, 0.193477f, 29.943f);
         RateCalculator.setCheckType(testParcel, "regular");
         testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
 
         price = RateCalculator.rateTableLookup(testParcel);
-        assertEquals(price, 44.92f, 0f);
+        assertEquals(price, 49.27f, 0f);
 
         RateCalculator.setCheckType(testParcel, "xpress");
         testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
 
         price = RateCalculator.rateTableLookup(testParcel);
-        assertEquals(price, 112.99f, 0f);
+        assertEquals(price, 124.66f, 0f);
 
         RateCalculator.setCheckType(testParcel, "priority");
         testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
 
         price = RateCalculator.rateTableLookup(testParcel);
-        assertEquals(price, 192.92f, 0f);
+        assertEquals(price, 217.85f, 0f);
 
         testParcel = new Parcel("N8R3U5", "H3A1B9", 15.29385f, 9.23593f, 0.193477f, 59.32f);
         RateCalculator.setCheckType(testParcel, "regular");
