@@ -5,14 +5,71 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class RateCalculatorTest {
-    @Before
-    public void setUp() throws Exception {
 
+    @Test
+    public void correctArgumentNumber() throws Exception {
+        boolean exception = false;
+        String[] args4 = {"H2X1S4", "M2S4F5", "15", "9.7", "0.345", "3", "regular"};
+        try{
+            RateCalculator.main(args4);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertFalse(exception);
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @Test
+    public void incorrectArgumentNumber() throws Exception {
+        boolean exception = false;
+        String[] args = {"abcd", "3"};
+        try{
+            RateCalculator.main(args);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertTrue(exception);
 
+        exception = false;
+        String[] args1 = {"abcd", "3", "943"};
+        try{
+            RateCalculator.main(args1);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertTrue(exception);
+
+        exception = false;
+        String[] args2 = {"abcd", "3", "04821", "soiejr"};
+        try{
+            RateCalculator.main(args2);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertTrue(exception);
+
+        exception = false;
+        String[] args3 = {"abcd", "3", "04821", "soiejr", "39ndke4"};
+        try{
+            RateCalculator.main(args3);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertTrue(exception);
+
+        exception = false;
+        String[] args4 = {"abcd", "3", "04821", "soiejr", "39ndke4", "23nsdjk53"};
+        try{
+            RateCalculator.main(args4);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertTrue(exception);
     }
 
     Parcel testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
@@ -542,4 +599,138 @@ public class RateCalculatorTest {
         assertNull(testParcel.getType());
     }
 
+    @Test
+    public void postalCodeTranslation() throws Exception {
+        testParcel = new Parcel("H2X1S4", "H3A1B9", 15.29385f, 9.23593f, 0.193477f, 12.2475f);
+        String translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "A3");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "J8R3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "B1");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "K7N3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "B3");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "N8X3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "B5");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "N7W3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "D1");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "B1R3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "E1");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "P7C3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "E5");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "B1H3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "F1");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "P8N3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "F2");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "B0M3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "F3");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "R0A3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "F4");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "P0T3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "F6");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "S9V3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "G1");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "T2C3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "G2");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "V2S3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "G3");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "V8A3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "H1");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "S0J3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "H3");
+
+        testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, "V0V3U5");
+        translation = RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode());
+        assertEquals(translation, "H5");
+    }
+
+    @Test
+    public void correctPriceAssignment() throws Exception {
+        testParcel = new Parcel("S9V3U5", "H3A1B9", 15.29385f, 9.23593f, 0.193477f, 12.2475f);
+        RateCalculator.setCheckType(testParcel, "regular");
+        testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
+
+        float price = RateCalculator.rateTableLookup(testParcel);
+        assertEquals(price, 32.24f, 0f);
+
+        RateCalculator.setCheckType(testParcel, "xpress");
+        testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
+
+        price = RateCalculator.rateTableLookup(testParcel);
+        assertEquals(price, 86.52f, 0f);
+
+        RateCalculator.setCheckType(testParcel, "priority");
+        testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
+
+        price = RateCalculator.rateTableLookup(testParcel);
+        assertEquals(price, 115.53f, 0f);
+
+        testParcel = new Parcel("E4X3U5", "H3A1B9", 15.29385f, 9.23593f, 0.193477f, 24.943f);
+        RateCalculator.setCheckType(testParcel, "regular");
+        testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
+
+        price = RateCalculator.rateTableLookup(testParcel);
+        assertEquals(price, 44.92f, 0f);
+
+        RateCalculator.setCheckType(testParcel, "xpress");
+        testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
+
+        price = RateCalculator.rateTableLookup(testParcel);
+        assertEquals(price, 112.99f, 0f);
+
+        RateCalculator.setCheckType(testParcel, "priority");
+        testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
+
+        price = RateCalculator.rateTableLookup(testParcel);
+        assertEquals(price, 192.92f, 0f);
+
+        testParcel = new Parcel("N8R3U5", "H3A1B9", 15.29385f, 9.23593f, 0.193477f, 59.32f);
+        RateCalculator.setCheckType(testParcel, "regular");
+        testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
+
+        price = RateCalculator.rateTableLookup(testParcel);
+        assertEquals(price, 32.39f+(59.32f*0.25f), 0f);
+
+        RateCalculator.setCheckType(testParcel, "xpress");
+        testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
+
+        price = RateCalculator.rateTableLookup(testParcel);
+        assertEquals(price, 37.06f+(59.32f*0.31f), 0f);
+
+        RateCalculator.setCheckType(testParcel, "priority");
+        testParcel.setTranslatedPostalCode(RateCalculator.codeTranslationTableLookup(testParcel.getSourcePostalCode()));
+
+        price = RateCalculator.rateTableLookup(testParcel);
+        assertEquals(price, 56.49f+(59.32f*0.47f), 0f);
+    }
 }

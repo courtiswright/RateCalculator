@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.IllegalFormatCodePointException;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -11,7 +12,11 @@ import org.apache.commons.csv.CSVRecord;
 public class RateCalculator {
 	
 	public static void main(String[] args) {
-		
+
+        if (args.length != 7){
+            throw new IllegalArgumentException("ERROR: 7 arguments must be specified in the following order. " +
+                    "Source postal code, Destination postal code, length, width, height, weight, type");
+        }
 		String sourcePostalCode = args[0];
 		String destPostalCode = args[1];
 		float length = Float.parseFloat(args[2]);
@@ -31,6 +36,7 @@ public class RateCalculator {
         }
         catch (IllegalArgumentException ex){
             System.out.println(ex);
+			return;
         }
 
         try {
@@ -38,6 +44,7 @@ public class RateCalculator {
         }
         catch (IllegalArgumentException ex) {
             System.out.println(ex);
+			return;
         }
 
         try {
@@ -45,6 +52,7 @@ public class RateCalculator {
         }
         catch (IllegalArgumentException ex){
             System.out.println(ex);
+			return;
         }
 
         try {
@@ -52,6 +60,7 @@ public class RateCalculator {
         }
         catch (IllegalArgumentException ex){
             System.out.println(ex);
+			return;
         }
 
 		parcel = setCheckType(parcel, type);
