@@ -17,6 +17,9 @@ public class RateCalculator {
             throw new IllegalArgumentException("ERROR: 7 arguments must be specified in the following order. " +
                     "Source postal code, Destination postal code, length, width, height, weight, type");
         }
+        
+        argumentFormatCheck(args);
+        
 		String sourcePostalCode = args[0];
 		String destPostalCode = args[1];
 		float length = Float.parseFloat(args[2]);
@@ -24,9 +27,6 @@ public class RateCalculator {
 		float height = Float.parseFloat(args[4]);
 		float weight = Float.parseFloat(args[5]);
 		String type = args[6];
-		
-//		Parcel parcel = new Parcel(sourcePostalCode, destPostalCode,
-//				length,width,height,weight);
 
         Parcel parcel = new Parcel (null, null, -1f, -1f, -1f, -1f);
         parcel = setCheckSourcePostalCode(parcel, sourcePostalCode);
@@ -67,6 +67,29 @@ public class RateCalculator {
 
         parcel.setTranslatedPostalCode(codeTranslationTableLookup(parcel.getSourcePostalCode()));
         rateTableLookup(parcel);
+	}
+
+	public static void argumentFormatCheck(String[] args) {
+		try {
+		    Float.parseFloat(args[2]); //checks if length is parsable to float
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("ERROR: input length is not a number");
+		}
+		try {
+		    Float.parseFloat(args[3]); //checks if width is parsable to float
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("ERROR: input width is not a number");
+		} 
+		try {
+			Float.parseFloat(args[4]); //checks if height is parsable to float
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("ERROR: input height is not a number");
+		} 
+		try {
+			Float.parseFloat(args[5]); //checks if weight is parsable to float
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("ERROR: input weight is not a number");
+		}
 	}
 
 	public static Parcel setCheckSourcePostalCode(Parcel parcel, String sourcePostalCode)throws IllegalArgumentException{
@@ -160,12 +183,6 @@ public class RateCalculator {
         }
 
 		return parcel;
-	}
-
-
-	public float calculateRate(Parcel parcel) {
-
-		return 0f;
 	}
 	
 	public static String codeTranslationTableLookup(String postalCode) {

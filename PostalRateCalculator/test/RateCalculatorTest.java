@@ -71,6 +71,61 @@ public class RateCalculatorTest {
         }
         assertTrue(exception);
     }
+    
+    @Test
+    public void correctArgumentFormat() throws Exception {
+        boolean exception = false;
+        String[] args5 = {"H2X1S4", "M2S4F5", "15", "9.7", "0.345", "3", "regular"};
+        try{
+            RateCalculator.main(args5);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertFalse(exception);
+    }
+    
+    @Test
+    public void incorrectArgumentFormat() throws Exception {
+        boolean exception = false;
+        String[] args6 = {"H2X1S4", "M2S4F5", "lengthNotNumber", "9.7", "0.345", "3", "regular"};
+        try{
+            RateCalculator.main(args6);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertTrue(exception);
+        
+        String[] args7 = {"H2X1S4", "M2S4F5", "15", "widthNotNumber", "0.345", "3", "regular"};
+        try{
+            RateCalculator.main(args7);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertTrue(exception);
+        
+        String[] args8 = {"H2X1S4", "M2S4F5", "15", "9.7", "heightNotNumber", "3", "regular"};
+        try{
+            RateCalculator.main(args8);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertTrue(exception);
+        
+        String[] args9 = {"H2X1S4", "M2S4F5", "15", "9.7", "0.345", "weightNotNumber", "regular"};
+        try{
+            RateCalculator.main(args9);
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
+        assertTrue(exception);
+    }
+
+
 
     Parcel testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
 
