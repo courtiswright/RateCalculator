@@ -60,7 +60,7 @@ public class RateCalculator {
         rateTableLookup(parcel);
 	}
 
-	public static Parcel setCheckSourcePostalCode(Parcel parcel, String sourcePostalCode){
+	public static Parcel setCheckSourcePostalCode(Parcel parcel, String sourcePostalCode)throws IllegalArgumentException{
 		if(sourcePostalCode.length() != 6) {
 			throw new IllegalArgumentException("ERROR: source postal code is not correct length");
 		}
@@ -78,7 +78,7 @@ public class RateCalculator {
 		return parcel;
 	}
 
-    public static Parcel setCheckDestPostalCode(Parcel parcel, String destPostalCode){
+    public static Parcel setCheckDestPostalCode(Parcel parcel, String destPostalCode)throws IllegalArgumentException{
     	if(destPostalCode.length() != 6) {
 			throw new IllegalArgumentException("ERROR: destination postal code is not correct length");
 		}
