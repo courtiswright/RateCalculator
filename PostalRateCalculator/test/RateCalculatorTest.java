@@ -62,7 +62,7 @@ public class RateCalculatorTest {
         assertTrue(exception);
 
         exception = false;
-        String[] args4 = {"abcd", "3", "04821", "soiejr", "39ndke4", "23nsdjk53"};
+        String[] args4 = {"abcd", "3", "04821", "soiejr", "39ndke4", "23nsdjk53", "324", "45.3"};
         try{
             RateCalculator.main(args4);
         }
@@ -71,7 +71,7 @@ public class RateCalculatorTest {
         }
         assertTrue(exception);
     }
-    
+
     @Test
     public void correctArgumentFormat() throws Exception {
         boolean exception = false;
@@ -84,40 +84,53 @@ public class RateCalculatorTest {
         }
         assertFalse(exception);
     }
-    
+
     @Test
     public void incorrectArgumentFormat() throws Exception {
         boolean exception = false;
         String[] args6 = {"H2X1S4", "M2S4F5", "lengthNotNumber", "9.7", "0.345", "3", "regular"};
+
         try{
             RateCalculator.main(args6);
+        }
+        catch(NumberFormatException e) {
+            exception = false; //Wrong error
         }
         catch (IllegalArgumentException ex){
             exception = true;
         }
         assertTrue(exception);
-        
+
         String[] args7 = {"H2X1S4", "M2S4F5", "15", "widthNotNumber", "0.345", "3", "regular"};
         try{
             RateCalculator.main(args7);
         }
+        catch(NumberFormatException e) {
+            exception = false; //Wrong error
+        }
         catch (IllegalArgumentException ex){
             exception = true;
         }
         assertTrue(exception);
-        
+
         String[] args8 = {"H2X1S4", "M2S4F5", "15", "9.7", "heightNotNumber", "3", "regular"};
         try{
             RateCalculator.main(args8);
         }
+        catch(NumberFormatException e) {
+            exception = false; //Wrong error
+        }
         catch (IllegalArgumentException ex){
             exception = true;
         }
         assertTrue(exception);
-        
+
         String[] args9 = {"H2X1S4", "M2S4F5", "15", "9.7", "0.345", "weightNotNumber", "regular"};
         try{
             RateCalculator.main(args9);
+        }
+        catch(NumberFormatException e) {
+            exception = false; //Wrong error
         }
         catch (IllegalArgumentException ex){
             exception = true;
@@ -125,13 +138,11 @@ public class RateCalculatorTest {
         assertTrue(exception);
     }
 
-
-
     Parcel testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
 
     @Test
     public void validPostalCodeTo() throws Exception {
-    	testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
+        testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
         boolean exception = false;
 
         String newPostalCode = "H3Z2Y7";
@@ -150,7 +161,7 @@ public class RateCalculatorTest {
     public void invalidPostalCodeTo() throws Exception {
         boolean exception = false;
         testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
-        
+
         String newPostalCode = "HAZ 2Y7";
         try {
             testParcel = RateCalculator.setCheckDestPostalCode(testParcel, newPostalCode);
@@ -224,9 +235,9 @@ public class RateCalculatorTest {
 
     @Test
     public void invalidPostalCodeFrom() throws Exception {
-    	boolean exception = false;
+        boolean exception = false;
         testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
-        
+
         String newPostalCode = "HAZ 2Y7";
         try {
             testParcel = RateCalculator.setCheckSourcePostalCode(testParcel, newPostalCode);
@@ -636,22 +647,53 @@ public class RateCalculatorTest {
 
     @Test
     public void invalidType() throws Exception {
+        boolean exception = false;
         testParcel = new Parcel(null, null, -1f, -1f, -1f, -1f);
 
-        testParcel = RateCalculator.setCheckType(testParcel, "");
+        try {
+            testParcel = RateCalculator.setCheckType(testParcel, "");
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
         assertNull(testParcel.getType());
+        assertTrue(exception);
 
-        testParcel = RateCalculator.setCheckType(testParcel, " ");
+        try {
+            testParcel = RateCalculator.setCheckType(testParcel, " ");
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
         assertNull(testParcel.getType());
+        assertTrue(exception);
 
-        testParcel = RateCalculator.setCheckType(testParcel, "express");
+        try {
+            testParcel = RateCalculator.setCheckType(testParcel, "express");
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
         assertNull(testParcel.getType());
+        assertTrue(exception);
 
-        testParcel = RateCalculator.setCheckType(testParcel, "regullaarr");
+        try {
+            testParcel = RateCalculator.setCheckType(testParcel, "regullaarr");
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
         assertNull(testParcel.getType());
+        assertTrue(exception);
 
-        testParcel = RateCalculator.setCheckType(testParcel, "PrioriTea");
+        try {
+            testParcel = RateCalculator.setCheckType(testParcel, "PrioriTea");
+        }
+        catch (IllegalArgumentException ex){
+            exception = true;
+        }
         assertNull(testParcel.getType());
+        assertTrue(exception);
     }
 
     @Test

@@ -170,20 +170,22 @@ public class RateCalculator {
         return parcel;
     }
 
-	public static Parcel setCheckType(Parcel parcel, String type){
+    public static Parcel setCheckType(Parcel parcel, String type){
 
         if(type.equalsIgnoreCase("xpress")) {
             parcel.setType(Parcel.Type.XPRESS);
         }
-        if(type.equalsIgnoreCase("regular")) {
+        else if(type.equalsIgnoreCase("regular")) {
             parcel.setType(Parcel.Type.REGULAR);
         }
-        if(type.equalsIgnoreCase("priority")) {
+        else if(type.equalsIgnoreCase("priority")) {
             parcel.setType(Parcel.Type.PRIORITY);
+        } else {
+            parcel.setType(null);
+            throw new IllegalArgumentException("ERROR: invalid type");
         }
-
-		return parcel;
-	}
+        return parcel;
+    }
 	
 	public static String codeTranslationTableLookup(String postalCode) {
 		Reader in;
